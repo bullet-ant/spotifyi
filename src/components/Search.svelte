@@ -1,30 +1,24 @@
 <script>
-  import { tracks } from "../store";
+  import { extractId } from "../helpers/spotify";
+  import { tracks, errors } from "../store";
 
-  let spotifyUrl = "";
+  let url = "";
 
   async function fetchMetadata(event) {
-    const trackRegex = new RegExp("https://open.spotify.com/track/.*");
-    const playlistRegex = new RegExp("https://open.spotify.com/playlist/.*");
-    const url = spotifyUrl.split("?")[0];
-    let id;
-    if (trackRegex.test(url)) id = url.split(`track/`)[1];
-    else if (playlistRegex.test(url)) id = url.split(`playlist/`)[1];
-
     try {
-      const spotifyiServer = import.meta.env.VITE_SPOTIFYI_SERVER;
-      const response = await fetch(
-        `${spotifyiServer}/spotify/${
-          trackRegex.test(url) ? "track" : "playlist"
-        }/${id}`
-      );
+      const { id, type } = extractId(url);
+      const server = import.meta.env.VITE_SPOTIFYI_SERVER;
+
+      const response = await fetch(`${server}/spotify/${type}/${id}`);
+      
       if (response.ok) {
+        $errors = [];
         $tracks = await response.json();
       } else {
-        console.error("Error:", response.status);
+        $errors = [...$errors, `${response.status}: ${response.statusText}`]
       }
     } catch (error) {
-      console.error("Error:", error);
+      $errors = [...$errors, error.message];
     }
   }
 </script>
@@ -33,7 +27,7 @@
   <input
     class="search-bar"
     placeholder="Enter spotify link here"
-    bind:value={spotifyUrl}
+    bind:value={url}
   />
   <button class="search-icon" on:click={fetchMetadata}>🔍</button>
 </div>
