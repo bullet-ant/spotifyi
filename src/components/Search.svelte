@@ -36,17 +36,18 @@
   .search-container {
     display: flex;
     align-items: center;
-    background-color: #242424;
+    background-color: #272829;
     width: 60%;
     height: 40px;
-    border: 1.5px solid #ccc;
+    border: 1.5px solid #FFF6E0;
     border-radius: 22px;
     padding: 1px;
   }
 
   .search-bar {
     flex: 16;
-    background-color: #242424;
+    background-color: #272829;
+    color: #FFF6E0;
     border: none;
     outline: none;
     font-size: 18px;
@@ -56,7 +57,7 @@
   }
 
   .search-icon {
-    background-color: #242424;
+    background-color: #272829;
     font-size: 20px;
     flex: 1;
     height: 100%;

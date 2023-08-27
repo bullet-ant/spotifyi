@@ -99,7 +99,7 @@
 
   /* Style for table headers */
   th {
-    border-bottom: 1px solid #fff; /* Horizontal border for headers */
+    border-bottom: 1px solid #FFF6E0; /* Horizontal border for headers */
     padding: 8px;
     text-align: left;
   }
@@ -107,7 +107,7 @@
   /* Style for table rows */
   .content-row:hover {
     /* Apply hover effect to the 2nd row (1st content row) */
-    background-color: #1b1b1b;
+    background-color: #61677A;
     cursor: pointer;
   }
 

@@ -3,16 +3,14 @@
   import Search from "./components/Search.svelte";
 </script>
 
-<div class="app">
-  <div class="top">
-    <div class="heading">SpotiFYI</div>
-    <div class="search-bar">
-      <Search />
-    </div>
+<div class="top">
+  <div class="heading">SpotiFYI</div>
+  <div class="search-bar">
+    <Search />
   </div>
-  <div class="table">
-    <Downloader />
-  </div>
+</div>
+<div class="table">
+  <Downloader />
 </div>
 
 <style>
@@ -29,7 +27,7 @@
   }
   .heading {
     font-size: 70px;
-    font-weight: bold;
+    font-weight: 600;
     height: 60%;
     display: flex;
     justify-content: center;
