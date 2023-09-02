@@ -1,24 +1,34 @@
 <script>
   import { extractId } from "../helpers/spotify";
-  import { tracks, errors } from "../store";
+  import { tracks, errors, loading } from "../store";
 
   let url = "";
 
-  async function fetchMetadata(event) {
+  async function fetchMetadata() {
+    $loading = true;
+
     try {
       const { id, type } = extractId(url);
       const server = import.meta.env.VITE_SPOTIFYI_SERVER;
 
       const response = await fetch(`${server}/spotify/${type}/${id}`);
-      
+
       if (response.ok) {
         $errors = [];
         $tracks = await response.json();
       } else {
-        $errors = [...$errors, `${response.status}: ${response.statusText}`]
+        $errors = [...$errors, `${response.status}: ${response.statusText}`];
       }
     } catch (error) {
       $errors = [...$errors, error.message];
+    } finally {
+      $loading = false;
+    }
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      fetchMetadata();
     }
   }
 </script>
@@ -28,8 +38,11 @@
     class="search-bar"
     placeholder="Enter spotify link here"
     bind:value={url}
+    on:keydown={handleKeyPress}
   />
-  <button class="search-icon" on:click={fetchMetadata}>🔍</button>
+  <button class="search-icon" on:click={fetchMetadata}>
+    <i class="fas fa-search" /></button
+  >
 </div>
 
 <style>
@@ -39,7 +52,7 @@
     background-color: #272829;
     width: 60%;
     height: 40px;
-    border: 1.5px solid #FFF6E0;
+    border: 1.5px solid #fff6e0;
     border-radius: 22px;
     padding: 1px;
   }
@@ -47,7 +60,7 @@
   .search-bar {
     flex: 16;
     background-color: #272829;
-    color: #FFF6E0;
+    color: #fff6e0;
     border: none;
     outline: none;
     font-size: 18px;

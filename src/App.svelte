@@ -1,6 +1,8 @@
 <script>
   import Downloader from "./components/Downloader.svelte";
   import Search from "./components/Search.svelte";
+  import preloader from "./assets/preloader.gif";
+  import { errors, loading } from "./store";
 </script>
 
 <div class="top">
@@ -9,9 +11,17 @@
     <Search />
   </div>
 </div>
-<div class="table">
-  <Downloader />
-</div>
+{#if $loading}
+  <div class="preloader">
+    <img src={preloader} alt="searching..." width="45px" height="45px" />
+  </div>
+{:else if $errors.length > 0}
+  <div class="error">Hmm... The link is not quite right!</div>
+{:else}
+  <div class="table">
+    <Downloader />
+  </div>
+{/if}
 
 <style>
   .top {
@@ -38,6 +48,10 @@
     justify-content: center;
   }
 
+  .preloader, .error {
+    display: flex;
+    justify-content: center;
+  }
   @keyframes flyUp {
     from {
       transform: translateY(70%);
